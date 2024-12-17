@@ -19,7 +19,7 @@ class UserModel(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    var id: Long? = null
+    var id: Long = 0L
 
     @CreatedDate
     @Column(name = "created_at")
