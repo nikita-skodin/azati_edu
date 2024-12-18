@@ -2,9 +2,7 @@ package com.app.azati_edu.services
 
 import com.app.azati_edu.models.CommentModel
 import com.app.azati_edu.views.CommentView
-import org.springframework.stereotype.Service
 
-@Service
 interface CommentService {
     fun createComment(view: CommentView): CommentModel
     fun getCommentById(id: Long): CommentModel
