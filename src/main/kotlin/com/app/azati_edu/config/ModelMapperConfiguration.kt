@@ -23,23 +23,17 @@ class ModelMapperConfiguration {
 }
 
 fun ModelMapper.userModelToView(user: UserModel): UserView {
-    val userView = UserView(user.username, user.email)
-    this.map(user, userView)
-    return userView
+    return UserView(user.username, user.email).also { this.map(user, it) }
 }
 
 fun ModelMapper.userViewToModel(userView: UserView): UserModel {
     return this.map(userView, UserModel::class.java)
 }
 
-// TODO refactor non arg constructor ex
-//fun ModelMapper.postModelToView(post: PostModel): PostView {
-//    return this.map(post, PostView::class.java).apply { userId = post.user.id }
-//}
-//
-//fun ModelMapper.commentModelToView(comment: CommentModel): CommentView {
-//    return this.map(comment, CommentView::class.java).apply {
-//        userId = comment.user.id
-//        postId = comment.post.id
-//    }
-//}
+fun ModelMapper.postModelToView(post: PostModel): PostView {
+    return PostView(post.title, post.content, post.user.id).also { this.map(post, it) }
+}
+
+fun ModelMapper.commentModelToView(comment: CommentModel): CommentView {
+    return CommentView(comment.content, comment.user.id, comment.post.id).also { this.map(comment, it) }
+}
