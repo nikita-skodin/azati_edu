@@ -13,7 +13,7 @@ data class PostView(
     var content: String,
     var userId: Long,
 ) : Serializable {
-    var id: Int? = null
+    var id: Long? = null
     var createdAt: LocalDateTime? = null
     var updatedAt: LocalDateTime? = null
 }
