@@ -26,14 +26,31 @@ fun ModelMapper.userModelToView(user: UserModel): UserView {
     return UserView(user.username, user.email).also { this.map(user, it) }
 }
 
-fun ModelMapper.userViewToModel(userView: UserView): UserModel {
-    return this.map(userView, UserModel::class.java)
+fun ModelMapper.userViewToModel(userView: UserView, userModel: UserModel): UserModel {
+    this.map(userView, userModel)
+    return userModel
 }
 
 fun ModelMapper.postModelToView(post: PostModel): PostView {
     return PostView(post.title, post.content, post.user.id).also { this.map(post, it) }
 }
 
+fun ModelMapper.postViewToModel(postView: PostView, postModel: PostModel): PostModel {
+    this.map(postView, postModel)
+    postModel.user = postModel.user
+    return postModel
+}
+
 fun ModelMapper.commentModelToView(comment: CommentModel): CommentView {
     return CommentView(comment.content, comment.user.id, comment.post.id).also { this.map(comment, it) }
+}
+
+fun ModelMapper.commentViewToModel(
+    commentView: CommentView,
+    commentModel: CommentModel,
+): CommentModel {
+    this.map(commentView, commentModel)
+    commentModel.user = commentModel.user
+    commentModel.post = commentModel.post
+    return commentModel
 }
