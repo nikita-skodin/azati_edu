@@ -32,7 +32,8 @@ class CommentServiceImplDefault(
         val comment = modelMapper
             .commentViewToModel(view, CommentModel(view.content, userDB, postDB))
         val saved = commentModelRepository.save(comment)
-        logger.info("Comment $view successfully created")
+        val (content, userId, postId) = view
+        logger.info("Comment: ${"content: $content userId: $userId postId: $postId"} successfully created")
         return saved
     }
 
@@ -53,7 +54,8 @@ class CommentServiceImplDefault(
         getUserOrExc(view.userId)
 
         commentDB = modelMapper.commentViewToModel(view, commentDB)
-        logger.info("Comment $view successfully updated")
+        val (content, userId, postId) = view
+        logger.info("Comment: ${"content: $content userId: $userId postId: $postId"} successfully updated")
         return commentDB
 
     }
