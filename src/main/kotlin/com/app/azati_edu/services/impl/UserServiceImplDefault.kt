@@ -31,7 +31,8 @@ class UserServiceImplDefault(
                 "User with username ${view.username} or email ${view.email} already exists."
             )
         }
-        val saved = userModelRepository.save(modelMapper.userViewToModel(view))
+        val saved =
+            userModelRepository.save(modelMapper.userViewToModel(view, UserModel(view.username, view.email)))
         logger.info("User $view created successfully")
         return saved
     }
@@ -39,10 +40,7 @@ class UserServiceImplDefault(
     @Transactional(readOnly = true)
     override fun getUserById(id: Long): UserModel {
         logger.info("Searching for user with id $id")
-        return userModelRepository.findByIdOrNull(id) ?: throw ResponseStatusException(
-            HttpStatus.NOT_FOUND,
-            "User with id $id not found"
-        )
+        return getUserOrExc(id)
     }
 
     @Transactional(rollbackFor = [Exception::class])
@@ -52,10 +50,7 @@ class UserServiceImplDefault(
             throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Ids are not the same")
         }
 
-        var userDB = userModelRepository.findByIdOrNull(id) ?: throw ResponseStatusException(
-            HttpStatus.NOT_FOUND,
-            "User with id $id not found"
-        )
+        var userDB = getUserOrExc(id)
 
         if (userModelRepository.existsByUsernameOrEmailAndIdNot(view.username, view.email, userDB.id)) {
             logger.warn("User $view already exists")
@@ -65,10 +60,9 @@ class UserServiceImplDefault(
             )
         }
 
-        userDB = modelMapper.userViewToModel(view)
-        val saved = userModelRepository.save(userDB)
+        userDB = modelMapper.userViewToModel(view, userDB)
         logger.info("User $view updated successfully")
-        return saved
+        return userDB
     }
 
     @Transactional(rollbackFor = [Exception::class])
@@ -84,4 +78,9 @@ class UserServiceImplDefault(
             throw ResponseStatusException(HttpStatus.NOT_FOUND, "User with id $id not found")
         }
     }
+
+    private fun getUserOrExc(id: Long) = userModelRepository.findByIdOrNull(id) ?: throw ResponseStatusException(
+        HttpStatus.NOT_FOUND,
+        "User with id $id not found"
+    )
 }
