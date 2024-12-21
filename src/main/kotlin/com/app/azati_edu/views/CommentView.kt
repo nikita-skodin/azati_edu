@@ -16,4 +16,9 @@ data class CommentView(
     var id: Long? = null
     var createdAt: LocalDateTime? = null
     var updatedAt: LocalDateTime? = null
+
+    operator fun plus(other: CommentView): MutableList<CommentView> {
+        return mutableListOf(this, other)
+    }
+
 }

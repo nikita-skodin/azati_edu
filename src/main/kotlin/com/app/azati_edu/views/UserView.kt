@@ -12,7 +12,13 @@ data class UserView(
     var username: String,
     var email: String,
 ) : Serializable {
+
     var id: Long? = null
     var createdAt: LocalDateTime? = null
     var updatedAt: LocalDateTime? = null
+
+    operator fun plus(other: UserView): MutableList<UserView> {
+        return mutableListOf(this, other)
+    }
+
 }

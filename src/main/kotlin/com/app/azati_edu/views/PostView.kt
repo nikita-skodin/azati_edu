@@ -16,4 +16,9 @@ data class PostView(
     var id: Long? = null
     var createdAt: LocalDateTime? = null
     var updatedAt: LocalDateTime? = null
+
+    operator fun plus(other: PostView): MutableList<PostView> {
+        return mutableListOf(this, other)
+    }
+
 }
