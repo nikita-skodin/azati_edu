@@ -37,8 +37,7 @@ fun ModelMapper.postModelToView(post: PostModel): PostView {
 
 fun ModelMapper.postViewToModel(postView: PostView, postModel: PostModel): PostModel {
     this.map(postView, postModel)
-    postModel.user = postModel.user
-    return postModel
+    return postModel.apply { user = postModel.user }
 }
 
 fun ModelMapper.commentModelToView(comment: CommentModel): CommentView {
@@ -50,7 +49,8 @@ fun ModelMapper.commentViewToModel(
     commentModel: CommentModel,
 ): CommentModel {
     this.map(commentView, commentModel)
-    commentModel.user = commentModel.user
-    commentModel.post = commentModel.post
-    return commentModel
+    return commentModel.apply {
+        user = commentModel.user
+        post = commentModel.post
+    }
 }
