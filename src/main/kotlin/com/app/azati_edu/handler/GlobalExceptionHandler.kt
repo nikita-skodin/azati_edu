@@ -1,4 +1,4 @@
-package com.app.azati_edu.handlers
+package com.app.azati_edu.handler
 
 import com.app.azati_edu.getClassLogger
 import org.springframework.http.HttpStatus

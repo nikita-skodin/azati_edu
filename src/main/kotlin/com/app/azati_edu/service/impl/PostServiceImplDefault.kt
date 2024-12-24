@@ -1,12 +1,12 @@
-package com.app.azati_edu.services.impl
+package com.app.azati_edu.service.impl
 
 import com.app.azati_edu.config.postViewToModel
 import com.app.azati_edu.getClassLogger
-import com.app.azati_edu.models.PostModel
-import com.app.azati_edu.repositories.PostModelRepository
-import com.app.azati_edu.repositories.UserModelRepository
-import com.app.azati_edu.services.PostService
-import com.app.azati_edu.views.PostView
+import com.app.azati_edu.model.PostModel
+import com.app.azati_edu.repository.PostModelRepository
+import com.app.azati_edu.repository.UserModelRepository
+import com.app.azati_edu.service.PostService
+import com.app.azati_edu.dto.PostViewDTO
 import org.modelmapper.ModelMapper
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
@@ -24,7 +24,7 @@ class PostServiceImplDefault(
     private val logger = getClassLogger<PostServiceImplDefault>()
 
     @Transactional(rollbackFor = [Exception::class])
-    override fun createPost(view: PostView): PostModel {
+    override fun createPost(view: PostViewDTO): PostModel {
         logger.info("Creating post $view")
         val userDB = getUserOrExc(view.userId)
 
@@ -41,7 +41,7 @@ class PostServiceImplDefault(
     }
 
     @Transactional(rollbackFor = [Exception::class])
-    override fun updatePost(id: Long, view: PostView): PostModel {
+    override fun updatePost(id: Long, view: PostViewDTO): PostModel {
         if (id != view.id) {
             throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Ids are not the same")
         }

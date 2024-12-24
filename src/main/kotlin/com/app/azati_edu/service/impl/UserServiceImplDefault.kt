@@ -1,11 +1,11 @@
-package com.app.azati_edu.services.impl
+package com.app.azati_edu.service.impl
 
 import com.app.azati_edu.config.userViewToModel
 import com.app.azati_edu.getClassLogger
-import com.app.azati_edu.models.UserModel
-import com.app.azati_edu.repositories.UserModelRepository
-import com.app.azati_edu.services.UserService
-import com.app.azati_edu.views.UserView
+import com.app.azati_edu.model.UserModel
+import com.app.azati_edu.repository.UserModelRepository
+import com.app.azati_edu.service.UserService
+import com.app.azati_edu.dto.UserViewDTO
 import org.modelmapper.ModelMapper
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
@@ -22,7 +22,7 @@ class UserServiceImplDefault(
     private val logger = getClassLogger<UserServiceImplDefault>()
 
     @Transactional(rollbackFor = [Exception::class])
-    override fun createUser(view: UserView): UserModel {
+    override fun createUser(view: UserViewDTO): UserModel {
         logger.info("Creating new User")
         if (userModelRepository.existsByUsernameOrEmail(view.username, view.email)) {
             logger.warn("User $view already exists")
@@ -44,7 +44,7 @@ class UserServiceImplDefault(
     }
 
     @Transactional(rollbackFor = [Exception::class])
-    override fun updateUser(id: Long, view: UserView): UserModel {
+    override fun updateUser(id: Long, view: UserViewDTO): UserModel {
         logger.info("Updating user with id $id")
         if (id != view.id) {
             throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Ids are not the same")

@@ -1,4 +1,4 @@
-package com.app.azati_edu.views
+package com.app.azati_edu.dto
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.PropertyNamingStrategies
@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
-data class CommentView(
+data class CommentModelDTO(
     var content: String,
     var userId: Long,
     var postId: Long,
@@ -17,7 +17,7 @@ data class CommentView(
     var createdAt: LocalDateTime? = null
     var updatedAt: LocalDateTime? = null
 
-    operator fun plus(other: CommentView): MutableList<CommentView> {
+    operator fun plus(other: CommentModelDTO): MutableList<CommentModelDTO> {
         return mutableListOf(this, other)
     }
 

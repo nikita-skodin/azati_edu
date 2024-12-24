@@ -1,8 +1,8 @@
-package com.app.azati_edu.controllers
+package com.app.azati_edu.controller
 
 import com.app.azati_edu.config.userModelToView
-import com.app.azati_edu.services.UserService
-import com.app.azati_edu.views.UserView
+import com.app.azati_edu.service.UserService
+import com.app.azati_edu.dto.UserViewDTO
 import org.modelmapper.ModelMapper
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -15,19 +15,19 @@ class UserController(
 ) {
 
     @PostMapping
-    fun createUser(@RequestBody user: UserView): ResponseEntity<UserView> {
+    fun createUser(@RequestBody user: UserViewDTO): ResponseEntity<UserViewDTO> {
         val createdUser = userService.createUser(user)
         return ResponseEntity.ok(modelMapper.userModelToView(createdUser))
     }
 
     @GetMapping("/{id}")
-    fun getUser(@PathVariable id: Long): ResponseEntity<UserView> {
+    fun getUser(@PathVariable id: Long): ResponseEntity<UserViewDTO> {
         val user = userService.getUserById(id)
         return ResponseEntity.ok(modelMapper.userModelToView(user))
     }
 
     @PutMapping("/{id}")
-    fun updateUser(@PathVariable id: Long, @RequestBody view: UserView): ResponseEntity<UserView> {
+    fun updateUser(@PathVariable id: Long, @RequestBody view: UserViewDTO): ResponseEntity<UserViewDTO> {
         val user = userService.updateUser(id, view)
         return ResponseEntity.ok(modelMapper.userModelToView(user))
     }

@@ -1,4 +1,4 @@
-package com.app.azati_edu.views
+package com.app.azati_edu.dto
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.PropertyNamingStrategies
@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
-data class UserView(
+data class UserViewDTO(
     var username: String,
     var email: String,
 ) : Serializable {
@@ -17,7 +17,7 @@ data class UserView(
     var createdAt: LocalDateTime? = null
     var updatedAt: LocalDateTime? = null
 
-    operator fun plus(other: UserView): MutableList<UserView> {
+    operator fun plus(other: UserViewDTO): MutableList<UserViewDTO> {
         return mutableListOf(this, other)
     }
 

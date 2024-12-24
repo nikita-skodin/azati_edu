@@ -1,8 +1,8 @@
-package com.app.azati_edu.controllers
+package com.app.azati_edu.controller
 
 import com.app.azati_edu.config.commentModelToView
-import com.app.azati_edu.services.CommentService
-import com.app.azati_edu.views.CommentView
+import com.app.azati_edu.service.CommentService
+import com.app.azati_edu.dto.CommentModelDTO
 import org.modelmapper.ModelMapper
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -14,19 +14,19 @@ class CommentController(
     private val modelMapper: ModelMapper
 ) {
     @PostMapping
-    fun createComment(@RequestBody view: CommentView): ResponseEntity<CommentView> {
+    fun createComment(@RequestBody view: CommentModelDTO): ResponseEntity<CommentModelDTO> {
         val createdComment = commentService.createComment(view)
         return ResponseEntity.ok(modelMapper.commentModelToView(createdComment))
     }
 
     @GetMapping("/{id}")
-    fun getComment(@PathVariable id: Long): ResponseEntity<CommentView> {
+    fun getComment(@PathVariable id: Long): ResponseEntity<CommentModelDTO> {
         val comment = commentService.getCommentById(id)
         return ResponseEntity.ok(modelMapper.commentModelToView(comment))
     }
 
     @PutMapping("/{id}")
-    fun updateComment(@PathVariable id: Long, @RequestBody view: CommentView): ResponseEntity<CommentView> {
+    fun updateComment(@PathVariable id: Long, @RequestBody view: CommentModelDTO): ResponseEntity<CommentModelDTO> {
         val updatedComment = commentService.updateComment(id, view)
         return ResponseEntity.ok(modelMapper.commentModelToView(updatedComment))
     }

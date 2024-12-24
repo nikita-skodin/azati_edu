@@ -1,13 +1,13 @@
-package com.app.azati_edu.services.impl
+package com.app.azati_edu.service.impl
 
 import com.app.azati_edu.config.commentViewToModel
 import com.app.azati_edu.getClassLogger
-import com.app.azati_edu.models.CommentModel
-import com.app.azati_edu.repositories.CommentModelRepository
-import com.app.azati_edu.repositories.PostModelRepository
-import com.app.azati_edu.repositories.UserModelRepository
-import com.app.azati_edu.services.CommentService
-import com.app.azati_edu.views.CommentView
+import com.app.azati_edu.model.CommentModel
+import com.app.azati_edu.repository.CommentModelRepository
+import com.app.azati_edu.repository.PostModelRepository
+import com.app.azati_edu.repository.UserModelRepository
+import com.app.azati_edu.service.CommentService
+import com.app.azati_edu.dto.CommentModelDTO
 import org.modelmapper.ModelMapper
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
@@ -25,7 +25,7 @@ class CommentServiceImplDefault(
     private val logger = getClassLogger<PostServiceImplDefault>()
 
     @Transactional(rollbackFor = [Exception::class])
-    override fun createComment(view: CommentView): CommentModel {
+    override fun createComment(view: CommentModelDTO): CommentModel {
         logger.info("Creating comment $view")
         val userDB = getUserOrExc(view.userId)
         val postDB = getPostOrExc(view.postId)
@@ -44,7 +44,7 @@ class CommentServiceImplDefault(
     }
 
     @Transactional(rollbackFor = [Exception::class])
-    override fun updateComment(id: Long, view: CommentView): CommentModel {
+    override fun updateComment(id: Long, view: CommentModelDTO): CommentModel {
         if (id != view.id) {
             throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Ids are not the same")
         }

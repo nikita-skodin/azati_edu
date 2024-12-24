@@ -1,4 +1,4 @@
-package com.app.azati_edu.models
+package com.app.azati_edu.model
 
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedDate
@@ -7,14 +7,19 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.LocalDateTime
 
 @Entity
-@Table(name = "users")
+@Table(name = "comments")
 @EntityListeners(AuditingEntityListener::class)
-class UserModel(
-    @Column(name = "username", nullable = false, length = 50)
-    var username: String,
+class CommentModel(
+    @Column(name = "content", nullable = false, length = Integer.MAX_VALUE)
+    var content: String,
 
-    @Column(name = "email", nullable = false, length = 100)
-    var email: String
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = [(CascadeType.REMOVE)])
+    @JoinColumn(name = "user_id", nullable = false)
+    var user: UserModel,
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = [(CascadeType.REMOVE)])
+    @JoinColumn(name = "post_id", nullable = false)
+    var post: PostModel,
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
