@@ -12,10 +12,7 @@ data class PostViewDTO(
     var title: String,
     var content: String,
     var userId: Long,
-) : Serializable {
-    var id: Long? = null
-    var createdAt: LocalDateTime? = null
-    var updatedAt: LocalDateTime? = null
+) : BaseDTO(), Serializable {
 
     operator fun plus(other: PostViewDTO): MutableList<PostViewDTO> {
         return mutableListOf(this, other)
