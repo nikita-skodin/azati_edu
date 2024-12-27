@@ -1,11 +1,11 @@
 package com.app.azati_edu.config
 
-import com.app.azati_edu.models.CommentModel
-import com.app.azati_edu.models.PostModel
-import com.app.azati_edu.models.UserModel
-import com.app.azati_edu.views.CommentView
-import com.app.azati_edu.views.PostView
-import com.app.azati_edu.views.UserView
+import com.app.azati_edu.model.CommentModel
+import com.app.azati_edu.model.PostModel
+import com.app.azati_edu.model.UserModel
+import com.app.azati_edu.dto.CommentModelDTO
+import com.app.azati_edu.dto.PostViewDTO
+import com.app.azati_edu.dto.UserViewDTO
 import org.modelmapper.ModelMapper
 import org.modelmapper.convention.MatchingStrategies
 import org.springframework.context.annotation.Bean
@@ -22,24 +22,35 @@ class ModelMapperConfiguration {
     }
 }
 
-fun ModelMapper.userModelToView(user: UserModel): UserView {
-    val userView = UserView(user.username, user.email)
-    this.map(user, userView)
-    return userView
+fun ModelMapper.userModelToView(user: UserModel): UserViewDTO {
+    return UserViewDTO(user.username, user.email).also { this.map(user, it) }
 }
 
-fun ModelMapper.userViewToModel(userView: UserView): UserModel {
-    return this.map(userView, UserModel::class.java)
+fun ModelMapper.userViewToModel(userViewDTO: UserViewDTO, userModel: UserModel): UserModel {
+    this.map(userViewDTO, userModel)
+    return userModel
 }
 
-// TODO refactor non arg constructor ex
-//fun ModelMapper.postModelToView(post: PostModel): PostView {
-//    return this.map(post, PostView::class.java).apply { userId = post.user.id }
-//}
-//
-//fun ModelMapper.commentModelToView(comment: CommentModel): CommentView {
-//    return this.map(comment, CommentView::class.java).apply {
-//        userId = comment.user.id
-//        postId = comment.post.id
-//    }
-//}
+fun ModelMapper.postModelToView(post: PostModel): PostViewDTO {
+    return PostViewDTO(post.title, post.content, post.user.id).also { this.map(post, it) }
+}
+
+fun ModelMapper.postViewToModel(postViewDTO: PostViewDTO, postModel: PostModel): PostModel {
+    this.map(postViewDTO, postModel)
+    return postModel.apply { user = postModel.user }
+}
+
+fun ModelMapper.commentModelToView(comment: CommentModel): CommentModelDTO {
+    return CommentModelDTO(comment.content, comment.user.id, comment.post.id).also { this.map(comment, it) }
+}
+
+fun ModelMapper.commentViewToModel(
+    commentModelDTO: CommentModelDTO,
+    commentModel: CommentModel,
+): CommentModel {
+    this.map(commentModelDTO, commentModel)
+    return commentModel.apply {
+        user = commentModel.user
+        post = commentModel.post
+    }
+}

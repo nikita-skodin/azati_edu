@@ -1,19 +1,19 @@
-package com.app.azati_edu.views
+package com.app.azati_edu.dto
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.PropertyNamingStrategies
 import com.fasterxml.jackson.databind.annotation.JsonNaming
 import java.io.Serializable
-import java.time.LocalDateTime
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
-data class PostView(
-    var title: String,
+data class CommentModelDTO(
     var content: String,
     var userId: Long,
-) : Serializable {
-    var id: Long? = null
-    var createdAt: LocalDateTime? = null
-    var updatedAt: LocalDateTime? = null
+    var postId: Long,
+) : BaseDTO(), Serializable {
+    operator fun plus(other: CommentModelDTO): MutableList<CommentModelDTO> {
+        return mutableListOf(this, other)
+    }
+
 }

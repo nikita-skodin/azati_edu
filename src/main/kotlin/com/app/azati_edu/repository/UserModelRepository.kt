@@ -1,6 +1,6 @@
-package com.app.azati_edu.repositories;
+package com.app.azati_edu.repository;
 
-import com.app.azati_edu.models.UserModel
+import com.app.azati_edu.model.UserModel
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
